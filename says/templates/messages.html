@@ -1,0 +1,11 @@
+{%if mssgs%}
+{%include 'includes/says_js.html' %}
+<div class='says-mssgs'>
+	{% for mssg in mssgs %}
+		<div class='says-mssg' id="{{mssg.id}}">
+			{{mssg.message}}
+		</div>
+	{% endfor %}
+
+</div><!-- end says-messages-->
+{%endif%}
