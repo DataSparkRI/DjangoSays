@@ -121,3 +121,9 @@ Here's an example of what gets injected into your page.
 
 ## Styling
 Says comes completely unstyled so its up to you to make it look awesome. See the sample html above to determine what classes and id's come with it.
+
+## TODO
+* There should be a setting for how long notication cookies are set for.
+* Im considering setting up some push notification type of deal via redis, gevent and longpolling.
+* Markdown enable message contents
+
