@@ -1,11 +1,29 @@
-{%if mssgs%}
-{%include 'includes/says_js.html' %}
-<div class='says-mssgs'>
-	{% for mssg in mssgs %}
-		<div class='says-mssg' id="{{mssg.id}}">
-			{{mssg.message}}
-		</div>
+{%if has_mssgs%}
+<div id="says-wrap">
+{%if persistant%}
+<div id='says-p-mssgs'>
+	<ul>
+	{% for p in persistant %}
+		<li class='says-p-mssg' id="{{p.slug}}">
+			{{p.message}}
+		</li>
 	{% endfor %}
+	</ul>
+</div><!-- end says-pers-->
+{%endif%}
+{%if notices%}
+<div id='says-notices'>
+	<a href="#" id="says-close-btn">Close</a>
+	<ul>
+	{% for n in notices %}
+		<li class='says-notice' id="{{n.slug}}">
+			{{n.message}}
+		</liv>
+	{% endfor %}
+	</ul>
 
-</div><!-- end says-messages-->
+</div><!-- end says-notices-->
+{%endif%}
+{%include 'includes/says_js.html' with default_close=default_close notices=notices%}
+</div><!-- end says-wrap-->
 {%endif%}

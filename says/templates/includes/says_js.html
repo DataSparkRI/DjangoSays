@@ -1,5 +1,33 @@
 <script type="text/javascript" charset="utf-8">
 	var says = {};
 	says.jq = window.jQuery || false;
+	says.notices = [];
+	says.set_cookie = function(name, value, expire_days){
+		var expire_date = new Date();
+		expire_date.setDate(expire_date.getDate()+expire_days);
+		document.cookie=name+"="+escape(value)+";expires="+expire_date.toGMTString();
+	}
+	says.get_cookie = function(name){
+		var results = document.cookie.match ( '(^|;) ?' + name + '=([^;]*)(;|$)' );
+  		if(results){
+    			return (unescape(results[2]));
+  		}else{
+    			return null;
+		}
+	}
+	says.init = function(){
+		{#grab all notifications#}
+		{%for n in notices%}
+		{#check to see if there is a cookie for this notification#}
+		if(says.get_cookie('{{n.slug}}')){
+			var elem = document.getElementById('{{n.slug}}');
+			elem.parentNode.removeChild(elem);
+		}else{
+			says.set_cookie('{{n.slug}}',true,10);
+		}
+		{%endfor%}
+	}();	
+
+
 </script>
 
