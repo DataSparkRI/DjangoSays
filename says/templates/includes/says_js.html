@@ -1,7 +1,5 @@
 <script type="text/javascript" charset="utf-8">
 	var says = {};
-	says.jq = window.jQuery || false;
-	says.notices = [];
 	says.set_cookie = function(name, value, expire_days){
 		var expire_date = new Date();
 		expire_date.setDate(expire_date.getDate()+expire_days);
@@ -16,16 +14,27 @@
 		}
 	}
 	says.init = function(){
-		{#grab all notifications#}
 		{%for n in notices%}
-		{#check to see if there is a cookie for this notification#}
-		if(says.get_cookie('{{n.slug}}')){
+		if(says.get_cookie('{{n.slug}}')){{#check to see if there is a cookie for this notification#}
 			var elem = document.getElementById('{{n.slug}}');
 			elem.parentNode.removeChild(elem);
 		}else{
 			says.set_cookie('{{n.slug}}',true,10);
 		}
 		{%endfor%}
+		{%if default_close %}{#enable a simple close button for notifications if default_click is set#}
+		document.getElementById('says-close-btn').addEventListener('click', function(e){
+			var elem = document.getElementById('says-notices');
+			elem.parentNode.removeChild(elem);
+
+		});
+		{%endif%}
+		//cleanup
+		if(document.getElementsByClassName('says-notice').length==0){
+			var elem = document.getElementById('says-notices');
+			elem.parentNode.removeChild(elem);
+		}
+
 	}();	
 
 
