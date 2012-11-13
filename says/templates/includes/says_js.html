@@ -3,7 +3,7 @@
 	says.set_cookie = function(name, value, expire_days){
 		var expire_date = new Date();
 		expire_date.setDate(expire_date.getDate()+expire_days);
-		document.cookie=name+"="+escape(value)+";expires="+expire_date.toGMTString();
+		document.cookie=name+"="+escape(value)+";expires="+expire_date.toGMTString()+"; path=/";
 	}
 	says.get_cookie = function(name){
 		var results = document.cookie.match ( '(^|;) ?' + name + '=([^;]*)(;|$)' );
@@ -13,13 +13,31 @@
     			return null;
 		}
 	}
+	says.getChildByClass = function(elem, childClass){
+		var children = elem.children;
+    		for(var i in children){
+        		var child = children[i];
+        		if(child.className === childClass){
+           			return child;                           
+        		}
+    		}
+
+	}
+	says.make_notice = function(slug, content){
+		var notice = document.createElement('li');
+		notice.id = slug;
+		notice.className='says-notice';
+		notice.innerHTML=content;
+		return notice;
+	}
+
 	says.init = function(){
+		var notice_wrap = document.getElementById('says-notices');
+		var notice_ul = says.getChildByClass(notice_wrap, 'says-list');
 		{%for n in notices%}
-		if(says.get_cookie('{{n.slug}}')){{#check to see if there is a cookie for this notification#}
-			var elem = document.getElementById('{{n.slug}}');
-			elem.parentNode.removeChild(elem);
-		}else{
+		if(!says.get_cookie('{{n.slug}}')){{#check to see if there is a cookie for this notification#}
 			says.set_cookie('{{n.slug}}',true,10);
+			notice_ul.appendChild(says.make_notice('{{n.slug}}','{{n.message}}'));
 		}
 		{%endfor%}
 		{%if default_close %}{#enable a simple close button for notifications if default_click is set#}
