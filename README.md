@@ -23,6 +23,25 @@ USE_DEFAULT_CLOSE = False
 ```
 Once you've disable that you can simply attach whatever ```close``` action you want by binding an click handler to ```#says-close-btn```.
 
+Here are some more settings you can change.
+```
+USE_DEFAULT_NOTIFICATIONS_DISPLAY = False # this uses the default action to append notifications to the notifications div when the page loads.
+NOTIFICATIONS_TITLE_TEXT = 'Things to know' # the h4 title for the notifications div. Defaults to "Notifications"
+NOTIFICATIONS_CLOSE_TEXT = 'Dismiss' # What the close buttons says.
+
+```
+
+If you choose to set ```USE_DEFAULT_NOTIFICATIONS_DISPLAY``` to False, you can access all the unseen notifications from the ```says``` js object.
+Ex:
+```
+says.notices
+> Object
+> simple-notification: Object
+  	level: "info"
+	message: "This is simple notification. It has no duration set so it will show up till its gone."
+	slug: "simple-notification"
+```
+
 ## Using it in template
 Add the nessary code to your template. You'll need to load the ```says``` template tags.
 ```
