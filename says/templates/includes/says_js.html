@@ -1,5 +1,6 @@
 <script type="text/javascript" charset="utf-8">
 	var says = {};
+	says.notices = {};
 	says.set_cookie = function(name, value, expire_days){
 		var expire_date = new Date();
 		expire_date.setDate(expire_date.getDate()+expire_days);
@@ -37,7 +38,14 @@
 		{%for n in notices%}
 		if(!says.get_cookie('{{n.slug}}')){{#check to see if there is a cookie for this notification#}
 			says.set_cookie('{{n.slug}}',true,10);
+			says.notices['{{n.slug}}'] = {
+				'slug':'{{n.slug}}',
+				'message':'{{n.message}}',
+				'level':'{{n.message_level}}'
+			}
+			{%if default_notifications_display%}
 			notice_ul.appendChild(says.make_notice('{{n.slug}}','{{n.message}}', '{{n.message_level}}'));
+			{%endif%}
 		}
 		{%endfor%}
 		{%if default_close %}{#enable a simple close button for notifications if default_click is set#}
