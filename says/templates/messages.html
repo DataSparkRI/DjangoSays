@@ -4,7 +4,7 @@
 <div id='says-p-mssgs'>
 	<ul>
 	{% for p in persistant %}
-		<li class='says-p-mssg' id="{{p.slug}}">
+		<li class='says-p-mssg {{p.message_level}}' id="{{p.slug}}">
 			{{p.message}}
 		</li>
 	{% endfor %}

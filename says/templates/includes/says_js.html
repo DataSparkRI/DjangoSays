@@ -23,10 +23,10 @@
     		}
 
 	}
-	says.make_notice = function(slug, content){
+	says.make_notice = function(slug, content, level){
 		var notice = document.createElement('li');
 		notice.id = slug;
-		notice.className='says-notice';
+		notice.className='says-notice' + ' ' + level;
 		notice.innerHTML=content;
 		return notice;
 	}
@@ -37,7 +37,7 @@
 		{%for n in notices%}
 		if(!says.get_cookie('{{n.slug}}')){{#check to see if there is a cookie for this notification#}
 			says.set_cookie('{{n.slug}}',true,10);
-			notice_ul.appendChild(says.make_notice('{{n.slug}}','{{n.message}}'));
+			notice_ul.appendChild(says.make_notice('{{n.slug}}','{{n.message}}', '{{n.message_level}}'));
 		}
 		{%endfor%}
 		{%if default_close %}{#enable a simple close button for notifications if default_click is set#}
