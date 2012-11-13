@@ -13,13 +13,13 @@
 {%endif%}
 {%if notices%}
 <div id='says-notices'>
-	<a href="#" id="says-close-btn">Close</a>
-	<h4> Notifications</h4>
+	<a href="#" id="says-close-btn">{{notifications_close_txt}}</a>
+	<h4> {{notifications_ttl_txt}}</h4>
 	<ul class="says-list">
 	</ul>
 
 </div><!-- end says-notices-->
 {%endif%}
-{%include 'includes/says_js.html' with default_close=default_close notices=notices%}
+{%include 'includes/says_js.html' with default_close=default_close default_n_display=default_notifications_display notices=notices%}
 </div><!-- end says-wrap-->
 {%endif%}
