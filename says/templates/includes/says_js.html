@@ -1,6 +1,7 @@
 <script type="text/javascript" charset="utf-8">
 	var says = {};
 	says.notices = {};
+	says.notice_count=0;
 	says.set_cookie = function(name, value, expire_days){
 		var expire_date = new Date();
 		expire_date.setDate(expire_date.getDate()+expire_days);
@@ -43,23 +44,39 @@
 				'message':'{{n.message}}',
 				'level':'{{n.message_level}}'
 			}
-			{%if default_notifications_display%}
-			notice_ul.appendChild(says.make_notice('{{n.slug}}','{{n.message}}', '{{n.message_level}}'));
-			{%endif%}
+			says.notice_count++;
 		}
 		{%endfor%}
-		{%if default_close %}{#enable a simple close button for notifications if default_click is set#}
-		document.getElementById('says-close-btn').addEventListener('click', function(e){
-			var elem = document.getElementById('says-notices');
-			elem.parentNode.removeChild(elem);
-
-		});
-		{%endif%}
-		//cleanup
-		if(document.getElementsByClassName('says-notice').length==0){
-			var elem = document.getElementById('says-notices');
-			elem.parentNode.removeChild(elem);
+		{%if default_notifications_display%}
+		if(says.notice_count>0){
+			for(n in says.notices){
+				notice = says.notices[n]
+				notice_ul.appendChild(says.make_notice(notice.slug, notice.message, notice.message_level));
+			}
+		}else{
+			document.getElementById('says-notices').style.display='none';
 		}
+		{%endif%}
+		{%if default_close %}{#enable a simple close button for notifications if default_click is set#}
+		var close_btn = document.getElementById('says-close-btn');
+		if(!close_btn.addEventListener){
+			//ie
+			close_btn.attachEvent('onclick', function(e){
+				var elem = document.getElementById('says-notices');
+				elem.style.display="none";
+				return false;
+
+			});
+		}else{
+			close_btn.addEventListener('click', function(e){
+				e.preventDefault();
+				var elem = document.getElementById('says-notices');
+				elem.style.display='none';
+
+			});
+
+		}
+		{%endif%}
 
 	}();	
 
